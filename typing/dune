@@ -1,0 +1,9 @@
+(executable
+ (name nat)
+ (modules nat)
+ (flags (:standard -w -a)))
+
+(executable
+ (name typing)
+ (modules typing)
+ (flags (:standard -w -a)))
