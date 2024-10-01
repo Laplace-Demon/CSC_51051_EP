@@ -1,4 +1,4 @@
-Assignments realized for course CSC_51051_EP
+Assignments realized for course CSC_51051_EP - Computational logic: From Artificial Intelligence to Zero bugs (Logique Informatique: de l'Intelligence Artificielle à l'Absence d'erreurs)
 
 ## TD1: Typing a simple programming language
 
