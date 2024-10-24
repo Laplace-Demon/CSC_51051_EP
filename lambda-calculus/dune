@@ -1,0 +1,9 @@
+(executable
+ (name lambda)
+ (modules lambda)
+ (flags (:standard -w -a)))
+
+(executable
+ (name dlambda)
+ (modules dlambda lambda)
+ (flags (:standard -w -a)))
