@@ -27,3 +27,11 @@ Assignments realized for course CSC_51051_EP - Computational logic: From Artific
 - Implementation of a sudoku solver based on sat solver.
 
 - Implementation of a CNF-conversion algorithm. 
+
+## TD3: The lambda-calculus
+
+- Implementation of alpha-, beta-, and eta- equivalence over lambda calculus.
+
+- Definition of different untyped lambda-terms, including booleans, conditional branches, Church natural numbers, operations and predicates over natural numbers, pairs and the Y combinator.
+
+- Implementation of De Bruijn indices and lambda-term operations over that.
