@@ -105,9 +105,19 @@ dm∧-converse not = (λ a → not (left a)) , (λ b → not (right b))
 
 -- We cannot prove dm∨-converse without the law of excluded middle 
 
-postulate nnlem : {A : Set} → ¬ (¬ (A ∨ (¬ A)))
+nnlem : {A : Set} → ¬ (¬ (A ∨ (¬ A)))
+nnlem not with (nnlem-helper not)
+  where
+  nnlem-helper : {A : Set} → ¬ (A ∨ ¬ A) → ¬ A ∧ ¬ (¬ A)
+  nnlem-helper or = (λ a → or (left a)) , λ not-a → or (right not-a)
+nnlem not | not-a , not-not-a = not-not-a not-a
 
-postulate rp : {A : Set} → (A → ¬ A) → ((¬ A) → A) → ⊥
+rp : {A : Set} → (A → ¬ A) → ((¬ A) → A) → ⊥
+rp f g =
+  let
+    a = g (λ a → f a a)
+  in
+  f a a
 
 data ⊤ : Set where
   tt : ⊤
@@ -126,3 +136,49 @@ lem = (A : Set) → A ∨ (¬ A)
 
 nne : Set₁
 nne = (A : Set) → ¬ (¬ A) → A
+
+nne-lem : nne → lem
+nne-lem nne = λ A → nne (A ∨ (¬ A)) nnlem
+
+lem-nne : lem → nne
+lem-nne lem A not-not-a with lem A
+lem-nne lem A not-not-a | left a = a
+lem-nne lem A not-not-a | right not-a = ⊥-elim (not-not-a not-a)
+
+-- Here, A and B are put in parenthesis (instead of curly braces) to keep a consistent style
+
+pierce : Set₁
+pierce = (A B : Set) → ((A → B) → A) → A
+
+lem-pierce : lem → pierce
+lem-pierce lem A B impl with lem A
+lem-pierce lem A B impl | left a = a
+lem-pierce lem A B impl | right not-a = impl λ a → ⊥-elim (not-a a)
+
+pierce-nne : pierce → nne
+pierce-nne pierce A not-not-a = pierce A ⊥ λ not-a → ⊥-elim (not-not-a not-a)
+
+postulate U : Set
+
+∀-comm : {P : U → U → Set} → ((x : U) → (y : U) → P x y) → ((y : U) → (x : U) → P x y)
+∀-comm f y x = f x y
+
+∃-comm : {P : U → U → Set} → ∃ (λ x → ∃ (λ y → P x y)) → ∃ (λ y → ∃ (λ x → P x y))
+∃-comm (x , y , P) = (y , x , P)
+
+∃-∀-change : {P : U → U → Set} → ∃ (λ x → (y : U) → P x y) → ((y : U) → ∃ (λ x → P x y))
+∃-∀-change (x , forall-y) = λ y → (x , forall-y y)
+
+lemma₁ : {P Q : U → Set} → ((x : U) → P x) ∨ ((x : U) → Q x) → ((x : U) → P x ∨ Q x)
+lemma₁ (left Px) = λ x → left (Px x)
+lemma₁ (right Qx) = λ x → right (Qx x)
+
+lemma₂ : {P Q : U → Set} → equiv ((x : U) → P x ∧ Q x) (((x : U) → P x) ∧ ((x : U) → Q x))
+lemma₂ = (λ P-and-Q → (λ x → proj1 (P-and-Q x)) , (λ x → proj2 (P-and-Q x)))
+       , (λ (Px , Qx) x → (Px x) , (Qx x))
+
+lemma₃ : {P : U → Set} → ∃ (λ x → ¬ (P x)) → ¬ ((x : U) → P x)
+lemma₃ (x , not-Px) = λ Px → not-Px (Px x)
+
+lemma₄ : {P : U → Set} → ((x : U) → ¬ (P x)) → ¬ (∃ (λ x → P x))
+lemma₄ not-Px (x , Px) = (not-Px x) Px
