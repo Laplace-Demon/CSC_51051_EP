@@ -35,3 +35,9 @@ Assignments realized for course CSC_51051_EP - Computational logic: From Artific
 - Definition of different untyped lambda-terms, including booleans, conditional branches, Church natural numbers, operations and predicates over natural numbers, pairs and the Y combinator.
 
 - Implementation of De Bruijn indices and lambda-term operations over that.
+
+## TD4: Implementing a propositional prover
+
+## TD5: Propositional logic in Agda
+
+## TD6/7: Inductive Types
